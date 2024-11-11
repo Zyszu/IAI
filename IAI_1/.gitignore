@@ -1,0 +1,5 @@
+bin/*
+.vscode/*
+lib/*
+data_asymetrical.txt
+data_symetrical.txt
