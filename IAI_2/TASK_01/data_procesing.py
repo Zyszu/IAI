@@ -1,34 +1,19 @@
 import pandas as pd
-import numpy as np
-
 from MachinesSchedule import MachinesSchedule, Task, Tasks
 
-file_name = "GA_task.xlsx"
-dataFrame = pd.read_excel(file_name, header = 1,  skiprows = 0)
+FILE_NAME = "GA_task.xlsx"
+MACHINE_COUNT = 10
 
-ordersList = []
+data_frame = pd.read_excel(FILE_NAME, header=1)
 
-numberOfColumns = int(dataFrame.shape[1] / 2)
-for i in range(numberOfColumns):
-    index = i*2
-    order = dataFrame.iloc[:, index:index+2].to_numpy()
-    ordersList.append(order)
-        
+ORDERS = []
+for order_id, columns in enumerate(range(0, data_frame.shape[1], 2)):
+    tasks = Tasks(order_id)
+    for index, row in data_frame.iloc[:, columns:columns+2].iterrows():
+        task = Task(machine=row[0], duration=row[1], task_order=index, order_id=order_id)
+        tasks.add_task(task)
+    ORDERS.append(tasks)
 
-orders = []
-
-for i, order in enumerate(ordersList):
-    tasks = Tasks(i)
-    for j, orderTask in enumerate(order):
-        task = Task(orderTask[0], orderTask[1], j, i)
-        tasks.addTask(task)
-    
-    orders.append(tasks)
-
-# outcome of this file
 MACHINES_SCHEDULE = MachinesSchedule()
-ORDERS = orders
-
-for i in range(10):
-    MACHINES_SCHEDULE.add_machine(i + 1)
-    
+for machine_id in range(1, MACHINE_COUNT + 1):
+    MACHINES_SCHEDULE.add_machine(machine_id)
