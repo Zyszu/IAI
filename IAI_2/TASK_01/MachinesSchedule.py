@@ -69,6 +69,7 @@ class MachinesSchedule:
         previous_task = tasks.task_list[task_order - 1] if task_order > 0 else None
 
         machine_schedule = self.schedule[current_task.machine]
+
         prev_task_end_time = (
             max(
                 (event.end_time for event in self.schedule[previous_task.machine] if event.task == previous_task),

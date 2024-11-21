@@ -17,3 +17,17 @@ for order_id, columns in enumerate(range(0, data_frame.shape[1], 2)):
 MACHINES_SCHEDULE = MachinesSchedule()
 for machine_id in range(1, MACHINE_COUNT + 1):
     MACHINES_SCHEDULE.add_machine(machine_id)
+
+def load_stored_genome():
+    f = open('genom_best', 'r')
+    genome = f.read().split('|')
+    genome = [int(i) for i in genome]
+    f.close()
+
+    return genome if len(genome) == 550 else None
+
+def save_genome(genome):
+    f = open('genom_best', 'w')
+    f.write('|'.join(map(str, genome)))
+
+    f.close()
