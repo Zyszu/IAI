@@ -37,19 +37,44 @@ def load_iris_data():
 
 if __name__ == "__main__":
     iris_training_data_inputs, iris_training_data_labels, iris_testing_data_inputs, iris_testing_data_labels = load_iris_data()
+    # iris_training_data_indexes = [i for i in range(len(iris_training_data_inputs))]
     
-    # Initial learning rate, which will be adjusted over time
-    initial_learning_rate = 0.01
+    learning_rate = 1e-3
     nn = NeuralNetwork()
     
-    # Training loop with learning rate decay
-    for epoch in range(1000):
+    # shuffling data every iteration:
+    # d_weights and d_biases do not stabilise at any point
+    # the whole process seams pretty random :/
+
+    # d_weights_max, d_biases_max = 1, 1
+    # iteration = 0
+    # while iteration < 1e4 and (d_weights_max > 1e-2 or d_biases_max > 1e-2):
+    #     for i in range(len(iris_training_data_inputs)):
+    #         d_weights_max, d_biases_max = nn.backward_propagation(
+    #             iris_training_data_inputs[iris_training_data_indexes[i]].reshape(-1, 1),
+    #             iris_training_data_labels[iris_training_data_indexes[i]], learning_rate
+    #             )
+            
+    #     if iteration % 10 == 0:
+    #         print(f'Iteration: {iteration}')
+    #         print(f'd_weights_max: {d_weights_max} | d_biases_max: {d_biases_max}')
+    #     iteration += 1
+
+    #     rand.shuffle(iris_training_data_indexes)
+
+    d_weights_max, d_biases_max = 1, 1
+    iteration = 0
+    while iteration < 2e3 and (d_weights_max > 1e-3 or d_biases_max > 1e-3):
         for i in range(len(iris_training_data_inputs)):
-            learning_rate = initial_learning_rate / (1 + epoch / 50)  # Learning rate schedule
-            nn.learn(iris_training_data_inputs[i].reshape(-1, 1), iris_training_data_labels[i], learning_rate)
-        
-        if epoch % 10 == 0:
-            print('Epoch:', epoch)
+            d_weights_max, d_biases_max = nn.backward_propagation(
+                iris_training_data_inputs[i].reshape(-1, 1),
+                iris_training_data_labels[i], learning_rate
+                )
+            
+        if iteration % 10 == 0:
+            print(f'Iteration: {iteration}')
+            print(f'd_weights_max: {d_weights_max} | d_biases_max: {d_biases_max}')
+        iteration += 1
                 
     # Testing phase
     correct_predictions = 0
