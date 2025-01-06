@@ -5,10 +5,10 @@ from collections import Counter
 from data_procesing import ORDERS, MACHINES_SCHEDULE, load_stored_genome, save_genome
 
 # Constants
-POPULATION_SIZE = 10
+POPULATION_SIZE = 25
 MUTATION_RATE = 0.95
 CROSSOVER_RATE = 0.6
-GENERATIONS = 100
+GENERATIONS = 10
 
 scores = []
 

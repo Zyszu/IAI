@@ -6,7 +6,7 @@ import ctypes as ct
 from vrepConst import *
 
 #load library
-libsimx = ct.CDLL('./remoteApi.so')
+libsimx = ct.CDLL('./remoteApi.dylib')
 try:
     file_extension = '.so'
     if platform.system() =='cli':
@@ -17,8 +17,8 @@ try:
         file_extension = '.dylib'
     else:
         file_extension = '.so'
+        
     libfullpath = os.path.join(os.path.dirname(__file__), 'remoteApi' + file_extension)
-    libsimx = ct.CDLL('./remoteApi.so')
     print(libsimx)
 except:
     print ('----------------------------------------------------')
