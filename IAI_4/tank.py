@@ -1,10 +1,14 @@
 from coppeliasim_zmqremoteapi_client import RemoteAPIClient
 
 class Tank:
-    def __init__(self):
+    def __init__(self, one_sensor=False):
         # Connect to the remote API client
+        print('ceated a tank!')
         client = RemoteAPIClient()
         self.sim = client.getObject('sim')
+
+        # Definde if all sensors will be used
+        self.one_sensor = one_sensor
 
         # Get handles to robot drivers
         self.left_front_handle = self.sim.getObject('/left_front')
@@ -23,6 +27,16 @@ class Tank:
         self.rightvelocity = 0
         self.MaxVel = 10
         self.dVel = 1
+        self.FORCE = 25
+
+        # Proximity sensors
+        self.proximity_sensors = ["EN", "ES", "NE", "NW", "SE", "SW", "WN", "WS"] if not self.one_sensor else ['N']
+        self.proximity_sensors_handles = []
+
+        # Get handles to proximity sensors
+        for sensor in self.proximity_sensors:
+            handle = self.sim.getObject(f'/Proximity_sensor_{sensor}' if not self.one_sensor else f'/Proximity_sensor')
+            self.proximity_sensors_handles.append(handle)
 
     def stop(self):
         # Set drivers to stop mode
@@ -32,7 +46,7 @@ class Tank:
         self.sim.setJointForce(self.right_back_handle, force)
         self.sim.setJointForce(self.right_front_handle, force)
 
-        force = 10
+        force = self.FORCE
         for h in self.side_handles:
             self.sim.setJointForce(h, force)
 
@@ -46,7 +60,7 @@ class Tank:
 
     def go(self):
         # Set drivers to go mode
-        force = 10
+        force = self.FORCE
         self.sim.setJointForce(self.left_front_handle, force)
         self.sim.setJointForce(self.left_back_handle, force)
         self.sim.setJointForce(self.right_back_handle, force)
@@ -106,3 +120,20 @@ class Tank:
             self.leftvelocity += self.dVel
             self.rightvelocity -= self.dVel
         self.setVelocity()
+
+    def read_proximity_sensors(self):
+        # Read and print values from proximity sensors
+        sensor_data = {}
+        for sensor_name, sensor_handle in zip(self.proximity_sensors, self.proximity_sensors_handles):
+            result = self.sim.readProximitySensor(sensor_handle)
+            detectionState = result[0]
+            detectedPoint = result[1]
+            detectedObjectHandle = result[2]
+            detectedSurfaceNormalVector = result[3]
+            sensor_data[sensor_name] = {
+                "detectionState": detectionState,
+                "detectedPoint": detectedPoint,
+                "detectedObjectHandle": detectedObjectHandle,
+                "detectedSurfaceNormalVector": detectedSurfaceNormalVector
+            }
+        return sensor_data
