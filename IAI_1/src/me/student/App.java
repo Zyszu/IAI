@@ -7,7 +7,7 @@ import me.student.WeightedGraph.Graph;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        final Boolean isSymetrical = true;
+        final Boolean isSymetrical = false;
         final long seed            = 2115;
         final Boolean saveToFile   = false;
         String fileName            = isSymetrical ? "data_symetrical.txt" : "data_asymetrical.txt";

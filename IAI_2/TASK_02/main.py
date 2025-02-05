@@ -7,16 +7,16 @@ def objective_function(position):
     return (1.5 - x - x * y) ** 2 + (2.25 - x + x * y ** 2) ** 2 + (2.625 - x + x * y ** 3) ** 2
 
 # PSO parameters
-num_particles = 100         # Number of particles in the swarm
+num_particles = 100        # Number of particles in the swarm
 num_dimensions = 2         # Number of dimensions (x, y)
-num_iterations = 1000        # Number of iterations
+num_iterations = 1000      # Number of iterations
 w = 0.1                    # Inertia weight
 c1 = 1.5                   # Cognitive coefficient (personal best influence)
 c2 = 1.5                   # Social coefficient (global best influence)
 position_min = -4.5        # Minimum position value
 position_max = 4.5         # Maximum position value
-velocity_min = -.01          # Minimum velocity
-velocity_max = .01           # Maximum velocity
+velocity_min = -.01        # Minimum velocity
+velocity_max = .01         # Maximum velocity
 
 iterations_positions = []
 
@@ -111,7 +111,7 @@ def animate(i):
 ani = animation.FuncAnimation(fig, animate, repeat=False,
                                     frames=len(iterations_positions), interval=10)
 
-# To save the animation using Pillow as a gif
+# Save the animation using Pillow as a gif
 # writer = animation.PillowWriter(fps=15,
 #                                 metadata=dict(artist='Me'),
 #                                 bitrate=1800)

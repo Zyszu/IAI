@@ -77,7 +77,7 @@ if __name__ == "__main__":
         iteration += 1
                 
     # Testing phase
-    correct_predictions = 0
+    correct_predictions = 0 
     for i in range(len(iris_testing_data_inputs)):
         output = nn.forward(iris_testing_data_inputs[i].reshape(-1, 1))[-1]
         predicted_label = np.argmax(output)
