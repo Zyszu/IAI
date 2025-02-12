@@ -7,7 +7,7 @@ import me.student.WeightedGraph.Graph;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        final Boolean isSymetrical = false;
+        final Boolean isSymetrical = true;
         final long seed            = 2115;
         final Boolean saveToFile   = false;
         String fileName            = isSymetrical ? "data_symetrical.txt" : "data_asymetrical.txt";
@@ -40,42 +40,42 @@ public class App {
             System.out.print(msg);
             if(saveToFile) writer.append(msg);
 
-            Infos aco = SalesmanProblemAlgorithms.tryACO(g, startNode);
-            msg = "ACO -> " + aco.toString() + '\n';
-            System.out.print(msg);
-            if(saveToFile) writer.append(msg);
+            // Infos aco = SalesmanProblemAlgorithms.tryACO(g, startNode);
+            // msg = "ACO -> " + aco.toString() + '\n';
+            // System.out.print(msg);
+            // if(saveToFile) writer.append(msg);
 
-            if(
-                (g.vertices > 13 && !isSymetrical) ||
-                (g.vertices > 12 && isSymetrical)
-            ) {
-                msg = "DFS -> no data (too big memory consumption or processing power is needed)\n";
-                System.out.print(msg);
-                if(saveToFile) writer.append(msg);
-            } else {
-                // [ToDo]
-                // Something is wrong with DFS method. Sometime it
-                // retruns path that is longer than BFS method
-                Infos dfs = SalesmanProblemAlgorithms.tryDFS(g, startNode);
-                msg = "DFS -> " + dfs.toString() + '\n';
-                System.out.print(msg);
-                if(saveToFile) writer.append(msg);
-            }
+            // if(
+            //     (g.vertices > 13 && !isSymetrical) ||
+            //     (g.vertices > 12 && isSymetrical)
+            // ) {
+            //     msg = "DFS -> no data (too big memory consumption or processing power is needed)\n";
+            //     System.out.print(msg);
+            //     if(saveToFile) writer.append(msg);
+            // } else {
+            //     // [ToDo]
+            //     // Something is wrong with DFS method. Sometime it
+            //     // retruns path that is longer than BFS method
+            //     Infos dfs = SalesmanProblemAlgorithms.tryDFS(g, startNode);
+            //     msg = "DFS -> " + dfs.toString() + '\n';
+            //     System.out.print(msg);
+            //     if(saveToFile) writer.append(msg);
+            // }
 
-            if(
-                (g.vertices > 12 && !isSymetrical) ||
-                (g.vertices > 11 && isSymetrical)
-            ) {
-                msg = "BFS -> no data (too big memory consumption or processing power is needed)\n";
-                System.out.print(msg);
-                if(saveToFile) writer.append(msg);
-            } else {
-                // just works :)
-                Infos bfs = SalesmanProblemAlgorithms.tryBFS(g, startNode);
-                msg = "BFS -> " + bfs.toString() + '\n';
-                System.out.print(msg);
-                if(saveToFile) writer.append(msg);
-            }
+            // if(
+            //     (g.vertices > 12 && !isSymetrical) ||
+            //     (g.vertices > 11 && isSymetrical)
+            // ) {
+            //     msg = "BFS -> no data (too big memory consumption or processing power is needed)\n";
+            //     System.out.print(msg);
+            //     if(saveToFile) writer.append(msg);
+            // } else {
+            //     // just works :)
+            //     Infos bfs = SalesmanProblemAlgorithms.tryBFS(g, startNode);
+            //     msg = "BFS -> " + bfs.toString() + '\n';
+            //     System.out.print(msg);
+            //     if(saveToFile) writer.append(msg);
+            // }
         }
 
         writer.close();

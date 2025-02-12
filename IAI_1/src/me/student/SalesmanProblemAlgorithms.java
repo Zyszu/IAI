@@ -188,6 +188,23 @@ public class SalesmanProblemAlgorithms {
         return farthestC3d;
     }
 
+    private static Double calcMeanDistance(Coordinates3D at, Graph g, List<Coordinates3D> v) {
+        List<Edge> el = g.adjacencylist.get(at);
+        if (el.isEmpty()) return 0.0;
+    
+        Double summ = 0.0;
+        Double count = 0.0;
+        for (Edge e : el) {
+            if (v.contains(e.destination)) continue;
+
+            summ += at.getDistanceTo(e.destination);
+            count += 1.0;
+        }
+        if (count == 0.0) return 0.0;
+        return summ / count;
+    }
+    
+
     private static Coordinates3DLinkedList aStar(Graph graph, Coordinates3D startNode, MyMemoryUsage mmu) {
         List<Coordinates3D> visited = new ArrayList<>();
         List<Coordinates3D> unVisited = new ArrayList<>(graph.verticesList);
@@ -195,7 +212,45 @@ public class SalesmanProblemAlgorithms {
         Coordinates3DLinkedList shortestPath = new Coordinates3DLinkedList();
         Coordinates3D at = startNode;
 
-        Double heuristicInfluence = 100.0;
+        while (at != null) {
+            visited.add(at);
+            unVisited.remove(at);
+            shortestPath.add(at);
+
+            Coordinates3D next = null;
+            Double minHeuristic = Double.POSITIVE_INFINITY;
+
+            // geting a list of all the roads connected to the city
+            List<Edge> edgesList = graph.adjacencylist.get(at);
+            for(Edge e : edgesList) {
+                Coordinates3D checked = e.destination;
+                if (visited.contains(checked)) continue;
+
+                Double edgeWeight = at.getDistanceTo(checked);
+                Double heuristic = edgeWeight + calcMeanDistance(checked, graph, visited);
+    
+                if (heuristic < minHeuristic) {
+                    minHeuristic = heuristic;
+                    next = checked;
+                }
+
+            }
+
+            at = next;
+        }
+
+        shortestPath.add(startNode);
+        return shortestPath;
+    }
+
+    private static Coordinates3DLinkedList aStarOld(Graph graph, Coordinates3D startNode, MyMemoryUsage mmu) {
+        List<Coordinates3D> visited = new ArrayList<>();
+        List<Coordinates3D> unVisited = new ArrayList<>(graph.verticesList);
+
+        Coordinates3DLinkedList shortestPath = new Coordinates3DLinkedList();
+        Coordinates3D at = startNode;
+
+        Double heuristicInfluence = 1.0;
 
         while (at != null) {
             visited.add(at);
