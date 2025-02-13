@@ -233,7 +233,6 @@ public class SalesmanProblemAlgorithms {
                     minHeuristic = heuristic;
                     next = checked;
                 }
-
             }
 
             at = next;
